@@ -46,7 +46,7 @@ app.use((err, req, res, next) => {
 // Connect to MongoDB
 const connectDB = async () => {
   // MongoDB Atlas connection string
-  const MONGO_URI = 'mongodb+srv://simranyadav464:XGIfK8MuOCODPW87@cluster0.meravjy.mongodb.net/?retryWrites=true&w=majority';
+  const MONGO_URI = process.env.MONGO_URI;
   
   try {
     console.log('Attempting to connect to MongoDB Atlas...');
