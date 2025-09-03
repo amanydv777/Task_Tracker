@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Task Tracker Application
 
 A full-stack task management application with user authentication, task CRUD operations, and push notifications.
@@ -41,7 +42,7 @@ A full-stack task management application with user authentication, task CRUD ope
 1. **Clone the repository**
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/amanydv777/Task_Tracker.git
 cd task-tracker
 ```
 
@@ -58,7 +59,7 @@ Create a `.env` file in the server directory with the following variables:
 ```
 PORT=5000
 MONGO_URI=mongodb://localhost:27017/tasktracker
-JWT_SECRET=your_jwt_secret_key_here
+JWT_SECRET=abc123
 NODE_ENV=development
 ```
 
@@ -137,3 +138,6 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - MongoDB for the database
 - Express.js for the backend framework
 - React.js for the frontend library
+=======
+# Task_Tracker
+>>>>>>> 9967745af19fc2fbaad64311bf5821105a163574
