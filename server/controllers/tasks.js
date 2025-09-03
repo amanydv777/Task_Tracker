@@ -31,7 +31,6 @@ exports.getTask = async (req, res, next) => {
       });
     }
 
-    // Make sure user owns task
     if (task.user.toString() !== req.user.id) {
       return res.status(401).json({
         success: false,
@@ -53,7 +52,6 @@ exports.getTask = async (req, res, next) => {
 // @access  Private
 exports.createTask = async (req, res, next) => {
   try {
-    // Add user to req.body
     req.body.user = req.user.id;
 
     const task = await Task.create(req.body);
@@ -81,7 +79,6 @@ exports.updateTask = async (req, res, next) => {
       });
     }
 
-    // Make sure user owns task
     if (task.user.toString() !== req.user.id) {
       return res.status(401).json({
         success: false,
@@ -117,7 +114,6 @@ exports.toggleTaskStatus = async (req, res, next) => {
       });
     }
 
-    // Make sure user owns task
     if (task.user.toString() !== req.user.id) {
       return res.status(401).json({
         success: false,
@@ -125,7 +121,6 @@ exports.toggleTaskStatus = async (req, res, next) => {
       });
     }
 
-    // Toggle status
     task.status = task.status === 'pending' ? 'completed' : 'pending';
     await task.save();
 
@@ -152,7 +147,6 @@ exports.deleteTask = async (req, res, next) => {
       });
     }
 
-    // Make sure user owns task
     if (task.user.toString() !== req.user.id) {
       return res.status(401).json({
         success: false,

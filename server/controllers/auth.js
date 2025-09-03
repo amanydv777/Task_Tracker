@@ -7,7 +7,6 @@ exports.register = async (req, res, next) => {
   try {
     const { name, email, password } = req.body;
 
-    // Check if user already exists
     const userExists = await User.findOne({ email });
 
     if (userExists) {
@@ -17,7 +16,6 @@ exports.register = async (req, res, next) => {
       });
     }
 
-    // Create user
     const user = await User.create({
       name,
       email,
@@ -37,7 +35,6 @@ exports.login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
 
-    // Validate email & password
     if (!email || !password) {
       return res.status(400).json({
         success: false,
@@ -45,7 +42,6 @@ exports.login = async (req, res, next) => {
       });
     }
 
-    // Check for user
     const user = await User.findOne({ email }).select('+password');
 
     if (!user) {
@@ -55,7 +51,6 @@ exports.login = async (req, res, next) => {
       });
     }
 
-    // Check if password matches
     const isMatch = await user.matchPassword(password);
 
     if (!isMatch) {
@@ -104,7 +99,6 @@ exports.updateProfile = async (req, res, next) => {
   try {
     const { name, email, currentPassword, newPassword, preferences, avatar } = req.body;
     
-    // Find the current user
     const user = await User.findById(req.user.id).select('+password');
     
     if (!user) {
@@ -114,7 +108,6 @@ exports.updateProfile = async (req, res, next) => {
       });
     }
     
-    // Check if email is already taken by another user
     if (email && email !== user.email) {
       const emailExists = await User.findOne({ email });
       if (emailExists) {
@@ -125,18 +118,13 @@ exports.updateProfile = async (req, res, next) => {
       }
     }
     
-    // Update basic fields
     if (name) user.name = name;
     if (email) user.email = email;
     
-    // Update avatar if provided
-    // In a real implementation, this would handle file uploads to a storage service
-    // For this demo, we're assuming avatar is a URL or data URL
     if (avatar) {
       user.avatar = avatar;
     }
     
-    // Update preferences if provided
     if (preferences) {
       user.preferences = {
         ...user.preferences,
@@ -144,9 +132,7 @@ exports.updateProfile = async (req, res, next) => {
       };
     }
     
-    // Update password if provided
     if (newPassword && currentPassword) {
-      // Verify current password
       const isMatch = await user.matchPassword(currentPassword);
       
       if (!isMatch) {
@@ -161,7 +147,6 @@ exports.updateProfile = async (req, res, next) => {
     
     await user.save();
     
-    // Return updated user without password
     const updatedUser = await User.findById(user._id);
     
     res.status(200).json({
@@ -174,9 +159,7 @@ exports.updateProfile = async (req, res, next) => {
   }
 };
 
-// Get token from model, create cookie and send response
 const sendTokenResponse = (user, statusCode, res) => {
-  // Create token
   const token = user.getSignedJwtToken();
 
   const options = {
